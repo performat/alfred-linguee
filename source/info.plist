@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string></string>
+	<string>com.alexandrebantz.alfred-linguee</string>
+	<key>category</key>
+	<string>Internet</string>
 	<key>connections</key>
 	<dict>
 		<key>4F8AE773-1A65-4B08-8ACB-A1863E4581AA</key>
@@ -34,9 +36,9 @@
 		</array>
 	</dict>
 	<key>createdby</key>
-	<string></string>
+	<string>Alexandre Bantz</string>
 	<key>description</key>
-	<string></string>
+	<string>Helps you faster translate phrases in Linguee.</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -108,7 +110,21 @@
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>An Alfred workflow that helps you faster translate phrases in Linguee.
+
+
+
+The scheme of the query is very simple and uses the following pattern:
+
+	ling &lt;phrase to translate&gt; &lt;from language ISO 639-1 code&gt;&lt;to 	language ISO 639-1 code&gt;
+
+Which gives us in the real world:
+
+	ling le meilleur des deux mondes fren
+
+
+
+Read the complete readme here: https://github.com/Performat/alfred-linguee</string>
 	<key>uidata</key>
 	<dict>
 		<key>313C1AC7-C1DE-45AC-9504-868B14B1E5A1</key>
@@ -133,7 +149,9 @@
 			<integer>230</integer>
 		</dict>
 	</dict>
+	<key>version</key>
+	<string>0.1</string>
 	<key>webaddress</key>
-	<string></string>
+	<string>https://twitter.com/performat</string>
 </dict>
 </plist>
