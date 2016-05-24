@@ -15,7 +15,7 @@ Which gives us in the real world:
 * The order of the ISO codes has no incidence on the translation as Linguee automatically finds out about the origin and destination languages.
 
 ## Getting started:
-Download the [latest version](https://github.com/Performat/alfred-linguee/releases/download/0.1/Translate.on.Linguee.alfredworkflow).
+Download [the latest version](https://github.com/Performat/alfred-linguee/releases/download/0.1/Translate.on.Linguee.alfredworkflow).
 
 ## Supported languages:
 * Chinese
