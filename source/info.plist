@@ -78,7 +78,7 @@
 				<key>subtext</key>
 				<string>translate {query} in Linguee</string>
 				<key>text</key>
-				<string>Translate expression in Linguee</string>
+				<string>Translate phrase in Linguee</string>
 				<key>withspace</key>
 				<true/>
 			</dict>
