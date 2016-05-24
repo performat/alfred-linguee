@@ -39,8 +39,8 @@ Download the [last version](https://github.com/Performat/alfred-linguee/releases
 * Romanian
 * Russian
 * Slovene
-* Swedish
 * Spanish
+* Swedish
 
 
 ##To do:
