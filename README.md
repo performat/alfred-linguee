@@ -1,5 +1,5 @@
 # alfred-linguee
-A workflow to help you to faster translate stuff in Linguee using Alfred.
+An Alfred workflow that helps you faster translate phrases in Linguee.
 
 ## How-to:
 The scheme of the query is very simple and uses the following pattern:
