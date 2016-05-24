@@ -43,5 +43,5 @@ Download the [last version](https://github.com/Performat/alfred-linguee/releases
 * Spanish
 
 
-###To do:
+##To do:
 * Add support for default origin and destination languages
