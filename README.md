@@ -1,14 +1,16 @@
 # alfred-linguee
 An Alfred workflow that helps you faster translate phrases in Linguee.
 
+Features autocomplete, relying on Google Suggest.
+
 ## How-to:
 The scheme of the query is very simple and uses the following pattern:
 
-`ling <phrase to translate>  <from language ISO 639-1 code><to language ISO 639-1 code>`
+`ling <from language ISO 639-1 code><to language ISO 639-1 code> <phrase to translate>`
 
 Which gives us in the real world:
 
-`ling le meilleur des deux mondes fren`
+`ling fren le meilleur des deux mondes`
 
 ###Note:
 * Please keep in mind that the origin and destination languages are mandatory for now and to omit them would lead to weird results.
