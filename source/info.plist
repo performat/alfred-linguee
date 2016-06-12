@@ -8,24 +8,11 @@
 	<string>Internet</string>
 	<key>connections</key>
 	<dict>
-		<key>4F8AE773-1A65-4B08-8ACB-A1863E4581AA</key>
+		<key>BFDCDED4-E644-46C9-93E2-4A664317967B</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>313C1AC7-C1DE-45AC-9504-868B14B1E5A1</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
-		<key>C5B4013C-2577-488E-9602-17D5A358E30E</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>4F8AE773-1A65-4B08-8ACB-A1863E4581AA</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -48,56 +35,12 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>68</integer>
-				<key>script</key>
-				<string>python linguee.py "{query}"</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>4F8AE773-1A65-4B08-8ACB-A1863E4581AA</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>0</integer>
-				<key>keyword</key>
-				<string>ling</string>
-				<key>subtext</key>
-				<string>translate {query} in Linguee</string>
-				<key>text</key>
-				<string>Translate phrase in Linguee</string>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
-			<key>uid</key>
-			<string>C5B4013C-2577-488E-9602-17D5A358E30E</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>browser</key>
 				<string></string>
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
-				<string>{query}</string>
+				<string>http://www.linguee.com/{query}</string>
 				<key>utf8</key>
 				<true/>
 			</dict>
@@ -107,6 +50,94 @@
 			<string>313C1AC7-C1DE-45AC-9504-868B14B1E5A1</string>
 			<key>version</key>
 			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>36</integer>
+				<key>keyword</key>
+				<string>ling</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>require_once('workflows.php');
+$wf = new Workflows();
+
+$dict = array ( "fr" =&gt; "french", "en" =&gt; "english", "de" =&gt; "german", "es" =&gt; "spanish", "ru" =&gt; "russian", "pt" =&gt; "portuguese", "it" =&gt; "italian", "ja" =&gt; "japanese", "zh" =&gt; "chinese", "nl" =&gt; "dutch", "pl" =&gt; "polish", "da" =&gt; "danish", "sv" =&gt; "swedish", "fi" =&gt; "finnish", "el" =&gt; "greek", "cs" =&gt; "czech", "ro" =&gt; "romanian", "hu" =&gt; "hungarian", "sk" =&gt; "slovene", "lt" =&gt; "lithuanian", "lv" =&gt; "latvian", "et" =&gt; "estonian", "mt" =&gt; "maltese" );
+
+$fromTo = substr("{query}", 0, 4);
+$firstLangKey = substr($fromTo, 0, 2);
+$secondLangKey = substr($fromTo, 2, 4);
+
+if (array_key_exists($firstLangKey, $dict)) {
+	$firstLang = $dict[$firstLangKey];
+} else {
+	$firstLang = "english";
+}
+
+if (array_key_exists($secondLangKey, $dict)) {
+	$secondLang = $dict[$secondLangKey];
+} else {
+	$secondLang = "english";
+}
+
+$uppercaseFirstLang = ucwords($firstLang);
+$uppercaseSecondLang = ucwords($secondLang);
+
+$languages = urlencode( "$firstLang-$secondLang" );
+
+$orig = substr("{query}", 4, strlen("{query}") -1);
+
+$text = urlencode( $orig );
+$xml = $wf-&gt;request( "http://google.com/complete/search?output=toolbar&amp;q=$text" );
+$xml = simplexml_load_string( utf8_encode($xml) );
+$int = 1;
+
+foreach( $xml as $sugg ):
+	$data = $sugg-&gt;suggestion-&gt;attributes()-&gt;data;
+	$query = "$languages/search?source=auto&amp;query=$data";
+	$wf-&gt;result( $int.'.'.time(), $query, "$data", "Translate \"$data\" from $uppercaseFirstLang to $uppercaseSecondLang in Linguee ", 'icon.png'  );
+	$int++;
+endforeach;
+
+$results = $wf-&gt;results();
+if ( count( $results ) == 0 ):
+	$wf-&gt;result( 'googlesuggest', $orig, 'Search Linguee for '.$orig, 'No suggested matches, search Linguee for '.$orig, 'icon.png' );
+endif;
+
+echo $wf-&gt;toxml();</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string></string>
+				<key>type</key>
+				<integer>1</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>BFDCDED4-E644-46C9-93E2-4A664317967B</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 	</array>
 	<key>readme</key>
@@ -130,21 +161,14 @@ Read the complete readme here: https://github.com/Performat/alfred-linguee</stri
 		<key>313C1AC7-C1DE-45AC-9504-868B14B1E5A1</key>
 		<dict>
 			<key>xpos</key>
-			<integer>630</integer>
+			<integer>510</integer>
 			<key>ypos</key>
 			<integer>230</integer>
 		</dict>
-		<key>4F8AE773-1A65-4B08-8ACB-A1863E4581AA</key>
+		<key>BFDCDED4-E644-46C9-93E2-4A664317967B</key>
 		<dict>
 			<key>xpos</key>
-			<integer>370</integer>
-			<key>ypos</key>
-			<integer>230</integer>
-		</dict>
-		<key>C5B4013C-2577-488E-9602-17D5A358E30E</key>
-		<dict>
-			<key>xpos</key>
-			<integer>80</integer>
+			<integer>210</integer>
 			<key>ypos</key>
 			<integer>230</integer>
 		</dict>
