@@ -17,9 +17,7 @@ Which gives us in the real world:
 * The order of the ISO codes has no incidence on the translation as Linguee automatically finds out about the origin and destination languages.
 
 ## Getting started:
-Download [the latest version](https://github.com/Performat/alfred-linguee/releases/latest). </br></br>
-
-Below are the supported languages and their corresponding ISO 639-1 code:
+Download [the latest version](https://github.com/Performat/alfred-linguee/releases/latest) and have a look at the supported languages and their corresponding ISO 639-1 code:
 
 | Language   | ISO 639-1 code |
 |------------|:---:|
