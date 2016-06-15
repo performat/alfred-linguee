@@ -19,30 +19,32 @@ Which gives us in the real world:
 ## Getting started:
 Download [the latest version](https://github.com/Performat/alfred-linguee/releases/latest).
 
-## Supported languages:
-* Chinese
-* Czech
-* Danish
-* Dutch
-* English
-* Estonian
-* Finnish
-* French
-* German
-* Greek
-* Hungarian
-* Italian
-* Japanese
-* Latvian
-* Lithuanian
-* Maltese
-* Polish
-* Portuguese
-* Romanian
-* Russian
-* Slovene
-* Spanish
-* Swedish
+## Supported languages & ISO 639-1 code:
+| Language   | ISO 639-1 code |
+|------------|:---:|
+| Chinese    | zh |
+| Czech      | cz |
+| Danish     | da |
+| Dutch      | nl |
+| English    | en |
+| Estonian   | et |
+| Finnish    | fi |
+| French     | fr |
+| German     | de |
+| Greek      | el |
+| Hungarian  | hu |
+| Italian    | it |
+| Japanese   | ja |
+| Latvian    | lv |
+| Lithuanian | lt |
+| Maltese    | mt |
+| Polish     | pl |
+| Portuguese | pt |
+| Romanian   | ro |
+| Russian    | ru |
+| Slovene    | sk |
+| Spanish    | es |
+| Swedish    | sv |
 
 
 ##To do:
