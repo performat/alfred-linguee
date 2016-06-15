@@ -19,7 +19,6 @@ Which gives us in the real world:
 ## Getting started:
 Download [the latest version](https://github.com/Performat/alfred-linguee/releases/latest).
 
-## Supported languages & ISO 639-1 code:
 | Language   | ISO 639-1 code |
 |------------|:---:|
 | Chinese    | zh |
