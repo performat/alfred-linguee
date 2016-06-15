@@ -71,7 +71,7 @@
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string></string>
+				<string>Processing your request...</string>
 				<key>script</key>
 				<string>require_once('workflows.php');
 $wf = new Workflows();
@@ -82,43 +82,60 @@ $fromTo = substr("{query}", 0, 4);
 $firstLangKey = substr($fromTo, 0, 2);
 $secondLangKey = substr($fromTo, 2, 4);
 
-if (array_key_exists($firstLangKey, $dict)) {
-	$firstLang = $dict[$firstLangKey];
+if (strlen($firstLangKey) == 2 &amp;&amp; strlen($secondLangKey) == 2) {
+
+	$firstLang = array_key_exists($firstLangKey, $dict) == true ? $dict[$firstLangKey] : "english";
+	$secondLang = array_key_exists($secondLangKey, $dict) == true ? $dict[$secondLangKey] : "english";
+	
+	$capFirstLang = ucfirst($firstLang);
+	$capSecondLang = ucfirst($secondLang);
+
+	$languages = urlencode( "$firstLang-$secondLang" );
+	
+	if ( strlen("{query}") &gt; 5) {
+	
+		$orig = substr("{query}", 5, strlen("{query}") -1);
+
+		$text = urlencode( $orig );
+		$xml = $wf-&gt;request( "http://google.com/complete/search?output=toolbar&amp;q=$text" );
+		$xml = simplexml_load_string( utf8_encode($xml) );
+		$int = 1;
+	
+		$uppercaseFirstLang = ucwords($firstLang);
+		$uppercaseSecondLang = ucwords($secondLang);
+
+		foreach( $xml as $sugg ):
+			$data = $sugg-&gt;suggestion-&gt;attributes()-&gt;data;
+			$query = "$languages/search?source=auto&amp;query=$data";
+			$wf-&gt;result( $int.'.'.time(), "$query", "$data", "Translate \"$data\" from $uppercaseFirstLang to $uppercaseSecondLang in Linguee ", 'icon.png'  );
+			$int++;
+		endforeach;
+
+		$query = "$languages/search?source=auto&amp;query=$orig";
+
+		$results = $wf-&gt;results();
+		if ( count( $results ) == 0 ):
+			$wf-&gt;result( 'googlesuggest', $query, 'Search Linguee for '.$orig, "No suggested matches, translate \"$orig\" from $capFirstLang to $capSecondLang in Linguee", 'icon.png' );
+		endif;
+
+		echo $wf-&gt;toxml();
+	} else {
+		$results = $wf-&gt;results();
+		if ( count( $results ) == 0 ):
+			$wf-&gt;result( 'googlesuggest', $query, "Translate from $capFirstLang to ".$capSecondLang." in Linguee".$orig, "Enter your query to translate from ".$capFirstLang." to ".$capSecondLang." in Linguee", 'icon.png' );
+		endif;
+
+		echo $wf-&gt;toxml();
+	}
+	
 } else {
-	$firstLang = "english";
-}
+	$results = $wf-&gt;results();
+	if ( count( $results ) == 0 ):
+		$wf-&gt;result( 'googlesuggest', $query, 'Processing...'.$orig, "Please enter the origin and destination language...", 'icon.png' );
+	endif;
 
-if (array_key_exists($secondLangKey, $dict)) {
-	$secondLang = $dict[$secondLangKey];
-} else {
-	$secondLang = "english";
-}
-
-$uppercaseFirstLang = ucwords($firstLang);
-$uppercaseSecondLang = ucwords($secondLang);
-
-$languages = urlencode( "$firstLang-$secondLang" );
-
-$orig = substr("{query}", 4, strlen("{query}") -1);
-
-$text = urlencode( $orig );
-$xml = $wf-&gt;request( "http://google.com/complete/search?output=toolbar&amp;q=$text" );
-$xml = simplexml_load_string( utf8_encode($xml) );
-$int = 1;
-
-foreach( $xml as $sugg ):
-	$data = $sugg-&gt;suggestion-&gt;attributes()-&gt;data;
-	$query = "$languages/search?source=auto&amp;query=$data";
-	$wf-&gt;result( $int.'.'.time(), $query, "$data", "Translate \"$data\" from $uppercaseFirstLang to $uppercaseSecondLang in Linguee ", 'icon.png'  );
-	$int++;
-endforeach;
-
-$results = $wf-&gt;results();
-if ( count( $results ) == 0 ):
-	$wf-&gt;result( 'googlesuggest', $orig, 'Search Linguee for '.$orig, 'No suggested matches, search Linguee for '.$orig, 'icon.png' );
-endif;
-
-echo $wf-&gt;toxml();</string>
+	echo $wf-&gt;toxml();
+}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -126,7 +143,7 @@ echo $wf-&gt;toxml();</string>
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string></string>
+				<string>Search Linguee for {query}</string>
 				<key>type</key>
 				<integer>1</integer>
 				<key>withspace</key>
@@ -141,13 +158,15 @@ echo $wf-&gt;toxml();</string>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string>An Alfred workflow that helps you faster translate phrases in Linguee.
+	<string>Modified version of Jonathan Poritsky's Google Suggest for DuckDuckGo: http://candlerblog.com/2014/05/08/duckduckgo-next/
 
+
+An Alfred workflow that helps you faster translate phrases in Linguee.
 
 
 The scheme of the query is very simple and uses the following pattern:
 
-	ling &lt;phrase to translate&gt; &lt;from language ISO 639-1 code&gt;&lt;to 	language ISO 639-1 code&gt;
+	ling &lt;from language ISO 639-1 code&gt;&lt;to language ISO 639-1 code&gt; &lt;phrase to translate&gt;
 
 Which gives us in the real world:
 
@@ -174,7 +193,7 @@ Read the complete readme here: https://github.com/Performat/alfred-linguee</stri
 		</dict>
 	</dict>
 	<key>version</key>
-	<string>0.1</string>
+	<string>0.2.2</string>
 	<key>webaddress</key>
 	<string>https://twitter.com/performat</string>
 </dict>
