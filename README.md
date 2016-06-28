@@ -3,8 +3,10 @@ An Alfred workflow that helps you faster translate phrases in Linguee.
 
 Features autocomplete, relying on Google Suggest.
 
-## How-to:
-The scheme of the query is very simple and uses the following pattern:
+*Requires the Alfred [Powerpack](https://www.alfredapp.com/powerpack/).*
+
+## Usage:
+The scheme of the query is very simple and follows the pattern below:
 
 `ling <from language ISO 639-1 code><to language ISO 639-1 code> <phrase to translate>`
 
