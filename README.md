@@ -48,5 +48,5 @@ Download [the latest version](https://github.com/Performat/alfred-linguee/releas
 | Swedish    | sv |
 
 
-##To do:
+## To do
 * Add support for default origin and destination languages
